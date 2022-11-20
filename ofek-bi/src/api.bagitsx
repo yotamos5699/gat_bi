@@ -1,0 +1,124 @@
+import docsParams from "./defaultdocs.params.json";
+import axios, { AxiosResponse } from "axios";
+
+type Document = {
+  cookie?: string;
+};
+
+const privet_Key =
+  "5d436d08ab7a7de44b0af9da502b9f932466f03922324e9987af32de3a6538c0dbdbd748d9e2d795d992f5c013339043935211d78ea41679425108c050931331";
+const dbName = "wizdb2394n5";
+
+let document: Document = {};
+
+document.cookie =
+  "AWSALB=8EFwb9B4Bk+81qPhNWzP5V9O7LJGZSJUZkcUnKgK0FQp3fF/cYCJ/9GDC0j+qRy33HQQliP2W9KGYpi8cYZ2hxfOdHKjNaSf61UBLNEnEdayH5qwhQsy0N/RaSmw; AWSALBCORS=8EFwb9B4Bk+81qPhNWzP5V9O7LJGZSJUZkcUnKgK0FQp3fF/cYCJ/9GDC0j+qRy33HQQliP2W9KGYpi8cYZ2hxfOdHKjNaSf61UBLNEnEdayH5qwhQsy0N/RaSmw; connect.sid=s%3AU8rt1GdgMwu6as9Tv2Hck9Cm5frfZ-VC.GC6pvwl1xrfKNhZxEzbg6Dz%2Bqhd79%2F8rEi%2BAr4wuQfY";
+const auth = {
+  WizcloudApiPrivateKey: privet_Key,
+  WizcloudApiServer: "www.lb11.wizcloud.co.il",
+  WizcloudApiDBName: dbName,
+};
+
+const apiPath = "ExportDataApi/exportData";
+const url = `https://${auth.WizcloudApiServer}/createSession/${auth.WizcloudApiPrivateKey}/${auth.WizcloudApiDBName}`;
+const getUrl = `https://${auth.WizcloudApiServer}/${apiPath}`;
+
+export const getAuthToken = async () => {
+  const options = {
+    // method: "get",
+
+    url: "https://lb11.wizcloud.co.il/createSession/5d436d08ab7a7de44b0af9da502b9f932466f03922324e9987af32de3a6538c0dbdbd748d9e2d795d992f5c013339043935211d78ea41679425108c050931331/wizdb2394n5",
+    withCredentials: false,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      //    "Access-Control-Allow-Origin": "*",
+      //   Cookie: document.cookie,
+    },
+  };
+
+  return axios(options)
+    .then((result: AxiosResponse) => {
+      console.log("result in auth ", result.data);
+      return JSON.stringify(result.data);
+    })
+    .catch((error: any) => console.log("error", error));
+};
+
+// var config = {
+//   method: "get",
+//   url: "https://lb11.wizcloud.co.il/createSession/5d436d08ab7a7de44b0af9da502b9f932466f03922324e9987af32de3a6538c0dbdbd748d9e2d795d992f5c013339043935211d78ea41679425108c050931331/wizdb2394n5",
+//   headers: {
+//     Cookie:
+//       "AWSALB=8EFwb9B4Bk+81qPhNWzP5V9O7LJGZSJUZkcUnKgK0FQp3fF/cYCJ/9GDC0j+qRy33HQQliP2W9KGYpi8cYZ2hxfOdHKjNaSf61UBLNEnEdayH5qwhQsy0N/RaSmw; AWSALBCORS=8EFwb9B4Bk+81qPhNWzP5V9O7LJGZSJUZkcUnKgK0FQp3fF/cYCJ/9GDC0j+qRy33HQQliP2W9KGYpi8cYZ2hxfOdHKjNaSf61UBLNEnEdayH5qwhQsy0N/RaSmw; connect.sid=s%3AU8rt1GdgMwu6as9Tv2Hck9Cm5frfZ-VC.GC6pvwl1xrfKNhZxEzbg6Dz%2Bqhd79%2F8rEi%2BAr4wuQfY",
+//   },
+// };
+
+// axios(config)
+//   .then(function (response) {
+//     console.log(JSON.stringify(response.data));
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+
+// export async function getReportData() {
+//   console.log({ getUrl });
+//   const token = await getAuth();
+
+//   const body = JSON.stringify({
+//     datafile: docsParams.datafile,
+//     parameters: docsParams.parameters,
+//   });
+//   const options: object = {
+//     method: "POST",
+//     async: true,
+//     mode: "no-cors",
+//     // "crossDomain": true,
+//     // 'muteHttpExceptions':true,
+
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: token,
+//     },
+//     body: body,
+//   };
+
+//   // console.log(getUrl)
+//   // console.log(data)
+//   console.log("options @@@@@", options);
+//   const res = await fetch(getUrl, options)
+//     .then((res) => {
+//       console.log(res);
+//       return res.json();
+//     })
+//     .catch((err) => console.log);
+//   console.log(res);
+//   return res;
+//   //doGet(res);
+// }
+
+// async function getData2Resipt(){
+
+//   var a = getAuth();
+//   console.log(a)
+//    var params_data = {
+//     "datafile": dataFile,
+//     "parameters": [
+//         {"p_name":"__MUSTACH_P0__",
+//         "id":"0","type":"date","name":"DateRange",
+//         "defVal":"'2000/01/01'","opName":"מ..עד",
+//         "opOrigin":"from"},
+//         {"p_name":"__MUSTACH_P1__",
+//         "id":"500","type":"date",
+//         "name":"DateRange1",
+//         "defVal":"'2030/01/01'",
+//         "opName":"מ..עד","opOrigin":"to"}
+//     ]
+// }
+
+//   return options
+// }
+
+export const fetchData = (url: string) => {
+  return fetch(url, { mode: "no-cors" }).then((res) => res.json());
+};
